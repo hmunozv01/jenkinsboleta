@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="9b574cbaed9240f29b1e643b7280d3ed" Name="Diagram1">
+        <EntityTypeShape EntityType="FormularioBoletaGarantiaModel.Inmobiliaria" Width="1.5" PointX="3.875" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="FormularioBoletaGarantiaModel.TipoGarantia" Width="1.5" PointX="10.75" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FormularioBoletaGarantiaModel.TipoMoneda" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FormularioBoletaGarantiaModel.Usuario" Width="1.5" PointX="7.375" PointY="7.875" />
+        <EntityTypeShape EntityType="FormularioBoletaGarantiaModel.UsuarioInmobiliaria" Width="1.5" PointX="3.75" PointY="5.875" />
+        <AssociationConnector Association="FormularioBoletaGarantiaModel.FK_UsuarioInmobiliaria_Inmobiliaria" />
+        <AssociationConnector Association="FormularioBoletaGarantiaModel.FK_UsuarioInmobiliaria_Usuario" />
+        <EntityTypeShape EntityType="FormularioBoletaGarantiaModel.EstadoBoletaGarantia" Width="1.5" PointX="0.75" PointY="0.875" />
+        <EntityTypeShape EntityType="FormularioBoletaGarantiaModel.Grupo" Width="1.5" PointX="5.125" PointY="9.5" />
+        <AssociationConnector Association="FormularioBoletaGarantiaModel.FK_Usuario_Grupo" />
+        <EntityTypeShape EntityType="FormularioBoletaGarantiaModel.BoletaGarantia" Width="1.5" PointX="13" PointY="2.5" />
+        <AssociationConnector Association="FormularioBoletaGarantiaModel.FK_BoletaGarantia_EstadoBoletaGarantia" />
+        <AssociationConnector Association="FormularioBoletaGarantiaModel.FK_BoletaGarantia_Inmobiliaria" />
+        <AssociationConnector Association="FormularioBoletaGarantiaModel.FK_BoletaGarantia_TipoGarantia" />
+        <AssociationConnector Association="FormularioBoletaGarantiaModel.FK_BoletaGarantia_TipoMoneda" />
+        <AssociationConnector Association="FormularioBoletaGarantiaModel.FK_BoletaGarantia_UsuarioSolicitante" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

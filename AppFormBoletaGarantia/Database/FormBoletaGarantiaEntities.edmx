@@ -1,0 +1,649 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="FormularioBoletaGarantiaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BoletaGarantia">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InmobiliariaId" Type="int" />
+          <Property Name="TipoMonedaId" Type="int" />
+          <Property Name="TipoGarantiaId" Type="int" />
+          <Property Name="UsuarioSolicitanteId" Type="int" />
+          <Property Name="EstadoBoletaGarantiaId" Type="int" />
+          <Property Name="RutSolicitante" Type="nvarchar" MaxLength="16" />
+          <Property Name="Beneficiario" Type="nvarchar" MaxLength="255" />
+          <Property Name="RutBeneficiario" Type="nvarchar" MaxLength="16" />
+          <Property Name="Monto" Type="decimal" Precision="16" Scale="3" />
+          <Property Name="Glosa" Type="nvarchar(max)" />
+          <Property Name="FechaVencimiento" Type="datetime" />
+          <Property Name="Responsable" Type="nvarchar" MaxLength="255" />
+          <Property Name="CentroCosto" Type="nvarchar" MaxLength="255" />
+          <Property Name="Observaciones" Type="nvarchar(max)" />
+          <Property Name="EntregaSantiago" Type="tinyint" />
+          <Property Name="LugarRetiro" Type="nvarchar" MaxLength="255" />
+          <Property Name="NombrePersonaRetiro" Type="nvarchar" MaxLength="255" />
+          <Property Name="RutPersonaRetiro" Type="nvarchar" MaxLength="16" />
+          <Property Name="Archivo" Type="nvarchar" MaxLength="255" />
+          <Property Name="EmailNotificacion" Type="nvarchar" MaxLength="128" />
+          <Property Name="FechaSolicitud" Type="datetime" />
+          <Property Name="FechaCreacion" Type="datetime" />
+          <Property Name="FechaModificacion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="EstadoBoletaGarantia">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Grupo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Inmobiliaria">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="50" />
+          <Property Name="Rut" Type="nvarchar" MaxLength="16" />
+        </EntityType>
+        <EntityType Name="TipoGarantia">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TipoMoneda">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GrupoId" Type="int" />
+          <Property Name="Dominio" Type="nvarchar" MaxLength="50" />
+          <Property Name="Usuario" Type="nvarchar" MaxLength="50" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="128" />
+          <Property Name="Eliminado" Type="bit" />
+          <Property Name="FechaCreacion" Type="datetime" />
+          <Property Name="FechaModificacion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="UsuarioInmobiliaria">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UsuarioId" Type="int" />
+          <Property Name="InmobiliariaId" Type="int" />
+        </EntityType>
+        <Association Name="FK_BoletaGarantia_EstadoBoletaGarantia">
+          <End Role="EstadoBoletaGarantia" Type="Self.EstadoBoletaGarantia" Multiplicity="0..1" />
+          <End Role="BoletaGarantia" Type="Self.BoletaGarantia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstadoBoletaGarantia">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BoletaGarantia">
+              <PropertyRef Name="EstadoBoletaGarantiaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BoletaGarantia_Inmobiliaria">
+          <End Role="Inmobiliaria" Type="Self.Inmobiliaria" Multiplicity="0..1" />
+          <End Role="BoletaGarantia" Type="Self.BoletaGarantia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inmobiliaria">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BoletaGarantia">
+              <PropertyRef Name="InmobiliariaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BoletaGarantia_TipoGarantia">
+          <End Role="TipoGarantia" Type="Self.TipoGarantia" Multiplicity="0..1" />
+          <End Role="BoletaGarantia" Type="Self.BoletaGarantia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoGarantia">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BoletaGarantia">
+              <PropertyRef Name="TipoGarantiaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BoletaGarantia_TipoMoneda">
+          <End Role="TipoMoneda" Type="Self.TipoMoneda" Multiplicity="0..1" />
+          <End Role="BoletaGarantia" Type="Self.BoletaGarantia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoMoneda">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BoletaGarantia">
+              <PropertyRef Name="TipoMonedaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BoletaGarantia_UsuarioSolicitante">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="BoletaGarantia" Type="Self.BoletaGarantia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BoletaGarantia">
+              <PropertyRef Name="UsuarioSolicitanteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Grupo">
+          <End Role="Grupo" Type="Self.Grupo" Multiplicity="0..1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Grupo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="GrupoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UsuarioInmobiliaria_Inmobiliaria">
+          <End Role="Inmobiliaria" Type="Self.Inmobiliaria" Multiplicity="0..1" />
+          <End Role="UsuarioInmobiliaria" Type="Self.UsuarioInmobiliaria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inmobiliaria">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UsuarioInmobiliaria">
+              <PropertyRef Name="InmobiliariaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UsuarioInmobiliaria_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="UsuarioInmobiliaria" Type="Self.UsuarioInmobiliaria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UsuarioInmobiliaria">
+              <PropertyRef Name="UsuarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="SP_GetUsuarios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_UsuarioInmobiliarias" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UsuarioId" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="FormularioBoletaGarantiaModelStoreContainer">
+          <EntitySet Name="BoletaGarantia" EntityType="Self.BoletaGarantia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EstadoBoletaGarantia" EntityType="Self.EstadoBoletaGarantia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Grupo" EntityType="Self.Grupo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Inmobiliaria" EntityType="Self.Inmobiliaria" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TipoGarantia" EntityType="Self.TipoGarantia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TipoMoneda" EntityType="Self.TipoMoneda" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UsuarioInmobiliaria" EntityType="Self.UsuarioInmobiliaria" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BoletaGarantia_EstadoBoletaGarantia" Association="Self.FK_BoletaGarantia_EstadoBoletaGarantia">
+            <End Role="EstadoBoletaGarantia" EntitySet="EstadoBoletaGarantia" />
+            <End Role="BoletaGarantia" EntitySet="BoletaGarantia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BoletaGarantia_Inmobiliaria" Association="Self.FK_BoletaGarantia_Inmobiliaria">
+            <End Role="Inmobiliaria" EntitySet="Inmobiliaria" />
+            <End Role="BoletaGarantia" EntitySet="BoletaGarantia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BoletaGarantia_TipoGarantia" Association="Self.FK_BoletaGarantia_TipoGarantia">
+            <End Role="TipoGarantia" EntitySet="TipoGarantia" />
+            <End Role="BoletaGarantia" EntitySet="BoletaGarantia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BoletaGarantia_TipoMoneda" Association="Self.FK_BoletaGarantia_TipoMoneda">
+            <End Role="TipoMoneda" EntitySet="TipoMoneda" />
+            <End Role="BoletaGarantia" EntitySet="BoletaGarantia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BoletaGarantia_UsuarioSolicitante" Association="Self.FK_BoletaGarantia_UsuarioSolicitante">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="BoletaGarantia" EntitySet="BoletaGarantia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Grupo" Association="Self.FK_Usuario_Grupo">
+            <End Role="Grupo" EntitySet="Grupo" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsuarioInmobiliaria_Inmobiliaria" Association="Self.FK_UsuarioInmobiliaria_Inmobiliaria">
+            <End Role="Inmobiliaria" EntitySet="Inmobiliaria" />
+            <End Role="UsuarioInmobiliaria" EntitySet="UsuarioInmobiliaria" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsuarioInmobiliaria_Usuario" Association="Self.FK_UsuarioInmobiliaria_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="UsuarioInmobiliaria" EntitySet="UsuarioInmobiliaria" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FormularioBoletaGarantiaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Inmobiliaria">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Rut" Type="String" MaxLength="16" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UsuarioInmobiliaria" Relationship="FormularioBoletaGarantiaModel.FK_UsuarioInmobiliaria_Inmobiliaria" FromRole="Inmobiliaria" ToRole="UsuarioInmobiliaria" />
+          <NavigationProperty Name="BoletaGarantia" Relationship="FormularioBoletaGarantiaModel.FK_BoletaGarantia_Inmobiliaria" FromRole="Inmobiliaria" ToRole="BoletaGarantia" />
+        </EntityType>
+        <EntityType Name="TipoGarantia">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BoletaGarantia" Relationship="FormularioBoletaGarantiaModel.FK_BoletaGarantia_TipoGarantia" FromRole="TipoGarantia" ToRole="BoletaGarantia" />
+        </EntityType>
+        <EntityType Name="TipoMoneda">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BoletaGarantia" Relationship="FormularioBoletaGarantiaModel.FK_BoletaGarantia_TipoMoneda" FromRole="TipoMoneda" ToRole="BoletaGarantia" />
+        </EntityType>
+        <EntityContainer Name="FormularioBoletaGarantiaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Inmobiliaria" EntityType="Self.Inmobiliaria" />
+          <EntitySet Name="TipoGarantia" EntityType="Self.TipoGarantia" />
+          <EntitySet Name="TipoMoneda" EntityType="Self.TipoMoneda" />
+          <EntitySet Name="Usuario" EntityType="FormularioBoletaGarantiaModel.Usuario" />
+          <EntitySet Name="UsuarioInmobiliaria" EntityType="FormularioBoletaGarantiaModel.UsuarioInmobiliaria" />
+          <AssociationSet Name="FK_UsuarioInmobiliaria_Inmobiliaria" Association="FormularioBoletaGarantiaModel.FK_UsuarioInmobiliaria_Inmobiliaria">
+            <End Role="Inmobiliaria" EntitySet="Inmobiliaria" />
+            <End Role="UsuarioInmobiliaria" EntitySet="UsuarioInmobiliaria" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsuarioInmobiliaria_Usuario" Association="FormularioBoletaGarantiaModel.FK_UsuarioInmobiliaria_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="UsuarioInmobiliaria" EntitySet="UsuarioInmobiliaria" />
+          </AssociationSet>
+          <EntitySet Name="EstadoBoletaGarantia" EntityType="FormularioBoletaGarantiaModel.EstadoBoletaGarantia" />
+          <EntitySet Name="Grupo" EntityType="FormularioBoletaGarantiaModel.Grupo" />
+          <AssociationSet Name="FK_Usuario_Grupo" Association="FormularioBoletaGarantiaModel.FK_Usuario_Grupo">
+            <End Role="Grupo" EntitySet="Grupo" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+          <EntitySet Name="BoletaGarantia" EntityType="FormularioBoletaGarantiaModel.BoletaGarantia" />
+          <AssociationSet Name="FK_BoletaGarantia_EstadoBoletaGarantia" Association="FormularioBoletaGarantiaModel.FK_BoletaGarantia_EstadoBoletaGarantia">
+            <End Role="EstadoBoletaGarantia" EntitySet="EstadoBoletaGarantia" />
+            <End Role="BoletaGarantia" EntitySet="BoletaGarantia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BoletaGarantia_Inmobiliaria" Association="FormularioBoletaGarantiaModel.FK_BoletaGarantia_Inmobiliaria">
+            <End Role="Inmobiliaria" EntitySet="Inmobiliaria" />
+            <End Role="BoletaGarantia" EntitySet="BoletaGarantia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BoletaGarantia_TipoGarantia" Association="FormularioBoletaGarantiaModel.FK_BoletaGarantia_TipoGarantia">
+            <End Role="TipoGarantia" EntitySet="TipoGarantia" />
+            <End Role="BoletaGarantia" EntitySet="BoletaGarantia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BoletaGarantia_TipoMoneda" Association="FormularioBoletaGarantiaModel.FK_BoletaGarantia_TipoMoneda">
+            <End Role="TipoMoneda" EntitySet="TipoMoneda" />
+            <End Role="BoletaGarantia" EntitySet="BoletaGarantia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BoletaGarantia_UsuarioSolicitante" Association="FormularioBoletaGarantiaModel.FK_BoletaGarantia_UsuarioSolicitante">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="BoletaGarantia" EntitySet="BoletaGarantia" />
+          </AssociationSet>
+          <FunctionImport Name="SP_GetUsuarios" ReturnType="Collection(FormularioBoletaGarantiaModel.SP_GetUsuarios_Result)" />
+          <FunctionImport Name="SP_UsuarioInmobiliarias" ReturnType="Collection(FormularioBoletaGarantiaModel.SP_UsuarioInmobiliarias_Result)">
+          <Parameter Name="UsuarioId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          </EntityContainer>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Dominio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Usuario1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UsuarioInmobiliaria" Relationship="FormularioBoletaGarantiaModel.FK_UsuarioInmobiliaria_Usuario" FromRole="Usuario" ToRole="UsuarioInmobiliaria" />
+          <Property Name="GrupoId" Type="Int32" />
+          <NavigationProperty Name="Grupo" Relationship="FormularioBoletaGarantiaModel.FK_Usuario_Grupo" FromRole="Usuario" ToRole="Grupo" />
+          <Property Name="Nombre" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BoletaGarantia" Relationship="FormularioBoletaGarantiaModel.FK_BoletaGarantia_UsuarioSolicitante" FromRole="Usuario" ToRole="BoletaGarantia" />
+          <Property Name="Eliminado" Type="Boolean" />
+          <Property Name="FechaCreacion" Type="DateTime" Precision="3" />
+          <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="UsuarioInmobiliaria">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UsuarioId" Type="Int32" />
+          <Property Name="InmobiliariaId" Type="Int32" />
+          <NavigationProperty Name="Inmobiliaria" Relationship="FormularioBoletaGarantiaModel.FK_UsuarioInmobiliaria_Inmobiliaria" FromRole="UsuarioInmobiliaria" ToRole="Inmobiliaria" />
+          <NavigationProperty Name="Usuario" Relationship="FormularioBoletaGarantiaModel.FK_UsuarioInmobiliaria_Usuario" FromRole="UsuarioInmobiliaria" ToRole="Usuario" />
+        </EntityType>
+        <Association Name="FK_UsuarioInmobiliaria_Inmobiliaria">
+          <End Type="FormularioBoletaGarantiaModel.Inmobiliaria" Role="Inmobiliaria" Multiplicity="0..1" />
+          <End Type="FormularioBoletaGarantiaModel.UsuarioInmobiliaria" Role="UsuarioInmobiliaria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inmobiliaria">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UsuarioInmobiliaria">
+              <PropertyRef Name="InmobiliariaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UsuarioInmobiliaria_Usuario">
+          <End Type="FormularioBoletaGarantiaModel.Usuario" Role="Usuario" Multiplicity="0..1" />
+          <End Type="FormularioBoletaGarantiaModel.UsuarioInmobiliaria" Role="UsuarioInmobiliaria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UsuarioInmobiliaria">
+              <PropertyRef Name="UsuarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="EstadoBoletaGarantia">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BoletaGarantia" Relationship="FormularioBoletaGarantiaModel.FK_BoletaGarantia_EstadoBoletaGarantia" FromRole="EstadoBoletaGarantia" ToRole="BoletaGarantia" />
+        </EntityType>
+        <EntityType Name="Grupo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Usuario" Relationship="FormularioBoletaGarantiaModel.FK_Usuario_Grupo" FromRole="Grupo" ToRole="Usuario" />
+        </EntityType>
+        <Association Name="FK_Usuario_Grupo">
+          <End Type="FormularioBoletaGarantiaModel.Grupo" Role="Grupo" Multiplicity="0..1" />
+          <End Type="FormularioBoletaGarantiaModel.Usuario" Role="Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Grupo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="GrupoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="BoletaGarantia">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InmobiliariaId" Type="Int32" />
+          <Property Name="TipoMonedaId" Type="Int32" />
+          <Property Name="TipoGarantiaId" Type="Int32" />
+          <Property Name="UsuarioSolicitanteId" Type="Int32" />
+          <Property Name="EstadoBoletaGarantiaId" Type="Int32" />
+          <Property Name="RutSolicitante" Type="String" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="Beneficiario" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="RutBeneficiario" Type="String" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="Monto" Type="Decimal" Precision="16" Scale="3" />
+          <Property Name="Glosa" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FechaVencimiento" Type="DateTime" Precision="3" />
+          <Property Name="Responsable" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CentroCosto" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Observaciones" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EntregaSantiago" Type="Byte" />
+          <Property Name="LugarRetiro" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="NombrePersonaRetiro" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="RutPersonaRetiro" Type="String" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="FechaSolicitud" Type="DateTime" Precision="3" />
+          <Property Name="FechaCreacion" Type="DateTime" Precision="3" />
+          <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="EstadoBoletaGarantia" Relationship="FormularioBoletaGarantiaModel.FK_BoletaGarantia_EstadoBoletaGarantia" FromRole="BoletaGarantia" ToRole="EstadoBoletaGarantia" />
+          <NavigationProperty Name="Inmobiliaria" Relationship="FormularioBoletaGarantiaModel.FK_BoletaGarantia_Inmobiliaria" FromRole="BoletaGarantia" ToRole="Inmobiliaria" />
+          <NavigationProperty Name="TipoGarantia" Relationship="FormularioBoletaGarantiaModel.FK_BoletaGarantia_TipoGarantia" FromRole="BoletaGarantia" ToRole="TipoGarantia" />
+          <NavigationProperty Name="TipoMoneda" Relationship="FormularioBoletaGarantiaModel.FK_BoletaGarantia_TipoMoneda" FromRole="BoletaGarantia" ToRole="TipoMoneda" />
+          <NavigationProperty Name="Usuario" Relationship="FormularioBoletaGarantiaModel.FK_BoletaGarantia_UsuarioSolicitante" FromRole="BoletaGarantia" ToRole="Usuario" />
+          <Property Name="Archivo" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="EmailNotificacion" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_BoletaGarantia_EstadoBoletaGarantia">
+          <End Type="FormularioBoletaGarantiaModel.EstadoBoletaGarantia" Role="EstadoBoletaGarantia" Multiplicity="0..1" />
+          <End Type="FormularioBoletaGarantiaModel.BoletaGarantia" Role="BoletaGarantia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstadoBoletaGarantia">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BoletaGarantia">
+              <PropertyRef Name="EstadoBoletaGarantiaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BoletaGarantia_Inmobiliaria">
+          <End Type="FormularioBoletaGarantiaModel.Inmobiliaria" Role="Inmobiliaria" Multiplicity="0..1" />
+          <End Type="FormularioBoletaGarantiaModel.BoletaGarantia" Role="BoletaGarantia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inmobiliaria">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BoletaGarantia">
+              <PropertyRef Name="InmobiliariaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BoletaGarantia_TipoGarantia">
+          <End Type="FormularioBoletaGarantiaModel.TipoGarantia" Role="TipoGarantia" Multiplicity="0..1" />
+          <End Type="FormularioBoletaGarantiaModel.BoletaGarantia" Role="BoletaGarantia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoGarantia">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BoletaGarantia">
+              <PropertyRef Name="TipoGarantiaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BoletaGarantia_TipoMoneda">
+          <End Type="FormularioBoletaGarantiaModel.TipoMoneda" Role="TipoMoneda" Multiplicity="0..1" />
+          <End Type="FormularioBoletaGarantiaModel.BoletaGarantia" Role="BoletaGarantia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoMoneda">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BoletaGarantia">
+              <PropertyRef Name="TipoMonedaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BoletaGarantia_UsuarioSolicitante">
+          <End Type="FormularioBoletaGarantiaModel.Usuario" Role="Usuario" Multiplicity="0..1" />
+          <End Type="FormularioBoletaGarantiaModel.BoletaGarantia" Role="BoletaGarantia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BoletaGarantia">
+              <PropertyRef Name="UsuarioSolicitanteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="SP_GetUsuarios_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="Int32" Name="GrupoId" Nullable="true" />
+          <Property Type="String" Name="Dominio" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Usuario" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="128" />
+          <Property Type="Boolean" Name="Eliminado" Nullable="true" />
+          <Property Type="DateTime" Name="FechaCreacion" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="FechaModificacion" Nullable="true" Precision="23" />
+          <Property Type="String" Name="GrupoNombre" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="SP_UsuarioInmobiliarias_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="Checked" Nullable="true" />
+          <Property Type="Int32" Name="UsuarioInmobiliariaId" Nullable="true" />
+        </ComplexType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FormularioBoletaGarantiaModelStoreContainer" CdmEntityContainer="FormularioBoletaGarantiaEntities">
+          <EntitySetMapping Name="Inmobiliaria">
+            <EntityTypeMapping TypeName="FormularioBoletaGarantiaModel.Inmobiliaria">
+              <MappingFragment StoreEntitySet="Inmobiliaria">
+                <ScalarProperty Name="Rut" ColumnName="Rut" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipoGarantia">
+            <EntityTypeMapping TypeName="FormularioBoletaGarantiaModel.TipoGarantia">
+              <MappingFragment StoreEntitySet="TipoGarantia">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipoMoneda">
+            <EntityTypeMapping TypeName="FormularioBoletaGarantiaModel.TipoMoneda">
+              <MappingFragment StoreEntitySet="TipoMoneda">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuario">
+            <EntityTypeMapping TypeName="FormularioBoletaGarantiaModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+                <ScalarProperty Name="Eliminado" ColumnName="Eliminado" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="GrupoId" ColumnName="GrupoId" />
+                <ScalarProperty Name="Usuario1" ColumnName="Usuario" />
+                <ScalarProperty Name="Dominio" ColumnName="Dominio" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UsuarioInmobiliaria">
+            <EntityTypeMapping TypeName="FormularioBoletaGarantiaModel.UsuarioInmobiliaria">
+              <MappingFragment StoreEntitySet="UsuarioInmobiliaria">
+                <ScalarProperty Name="InmobiliariaId" ColumnName="InmobiliariaId" />
+                <ScalarProperty Name="UsuarioId" ColumnName="UsuarioId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EstadoBoletaGarantia">
+            <EntityTypeMapping TypeName="FormularioBoletaGarantiaModel.EstadoBoletaGarantia">
+              <MappingFragment StoreEntitySet="EstadoBoletaGarantia">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Grupo">
+            <EntityTypeMapping TypeName="FormularioBoletaGarantiaModel.Grupo">
+              <MappingFragment StoreEntitySet="Grupo">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BoletaGarantia">
+            <EntityTypeMapping TypeName="FormularioBoletaGarantiaModel.BoletaGarantia">
+              <MappingFragment StoreEntitySet="BoletaGarantia">
+                <ScalarProperty Name="EmailNotificacion" ColumnName="EmailNotificacion" />
+                <ScalarProperty Name="Archivo" ColumnName="Archivo" />
+                <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+                <ScalarProperty Name="FechaSolicitud" ColumnName="FechaSolicitud" />
+                <ScalarProperty Name="RutPersonaRetiro" ColumnName="RutPersonaRetiro" />
+                <ScalarProperty Name="NombrePersonaRetiro" ColumnName="NombrePersonaRetiro" />
+                <ScalarProperty Name="LugarRetiro" ColumnName="LugarRetiro" />
+                <ScalarProperty Name="EntregaSantiago" ColumnName="EntregaSantiago" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="CentroCosto" ColumnName="CentroCosto" />
+                <ScalarProperty Name="Responsable" ColumnName="Responsable" />
+                <ScalarProperty Name="FechaVencimiento" ColumnName="FechaVencimiento" />
+                <ScalarProperty Name="Glosa" ColumnName="Glosa" />
+                <ScalarProperty Name="Monto" ColumnName="Monto" />
+                <ScalarProperty Name="RutBeneficiario" ColumnName="RutBeneficiario" />
+                <ScalarProperty Name="Beneficiario" ColumnName="Beneficiario" />
+                <ScalarProperty Name="RutSolicitante" ColumnName="RutSolicitante" />
+                <ScalarProperty Name="EstadoBoletaGarantiaId" ColumnName="EstadoBoletaGarantiaId" />
+                <ScalarProperty Name="UsuarioSolicitanteId" ColumnName="UsuarioSolicitanteId" />
+                <ScalarProperty Name="TipoGarantiaId" ColumnName="TipoGarantiaId" />
+                <ScalarProperty Name="TipoMonedaId" ColumnName="TipoMonedaId" />
+                <ScalarProperty Name="InmobiliariaId" ColumnName="InmobiliariaId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_GetUsuarios" FunctionName="FormularioBoletaGarantiaModel.Store.SP_GetUsuarios">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FormularioBoletaGarantiaModel.SP_GetUsuarios_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="GrupoId" ColumnName="GrupoId" />
+                <ScalarProperty Name="Dominio" ColumnName="Dominio" />
+                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Eliminado" ColumnName="Eliminado" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+                <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+                <ScalarProperty Name="GrupoNombre" ColumnName="GrupoNombre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_UsuarioInmobiliarias" FunctionName="FormularioBoletaGarantiaModel.Store.SP_UsuarioInmobiliarias">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FormularioBoletaGarantiaModel.SP_UsuarioInmobiliarias_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Checked" ColumnName="Checked" />
+                <ScalarProperty Name="UsuarioInmobiliariaId" ColumnName="UsuarioInmobiliariaId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,276 @@
+﻿@model BoletaGarantiaForm
+@{
+    ViewBag.Title = "Formulario";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles {
+    <style type="text/css">
+        .form-group {
+            margin-bottom: 6px;
+        }
+
+        .help-block {
+            margin-bottom: 5px;
+        }
+    </style>
+}
+
+@section scripts {
+
+    <script type="text/javascript">
+        $(function () {
+
+            var inmobiliarias = $.parseJSON('@Html.Raw(ViewBag.InmobiliariasJson)');
+
+            var fechaHasta = moment("@(ViewBag.Boleta == null ? DateTime.Now.ToString("yyyy-MM-dd") : ViewBag.Boleta.FechaCreacion.ToString("yyyy-MM-dd"))");
+            fechaHasta.add(36, "months");
+            
+            $("#InmobiliariaId").change(function () {
+                var selected = this.value;
+                var found = false;
+
+                $.each(inmobiliarias, function (index, value) {
+                    if (selected == value.Id) {
+                        $("#RutSolicitante").text(value.Rut);
+                        found = true;
+                    }
+                });
+
+                if (!found) {
+                    $("#RutSolicitante").text("Seleccione un solicitante.");
+                }
+            }).change();
+
+            $("#EntregaSantiago").change(function () {
+                $(".hide-entrega-stgo").toggle(!$(this).is(":checked"));
+            }).change();
+
+            $('#FechaVencimiento').daterangepicker({
+                singleDatePicker: true,
+                timePicker: false,
+                //timePicker24Hour: true,
+                autoApply: true,
+                startDate: moment("@Model.FechaVencimiento", "DD-MM-YYYY"),
+                endDate: moment("@Model.FechaVencimiento", "DD-MM-YYYY"),
+                maxDate: fechaHasta,
+                locale: {
+                    format: "DD-MM-YYYY",
+                    applyLabel: 'Aplicar',
+                    cancelLabel: 'Cancelar',
+                    fromLabel: 'Desde',
+                    toLabel: 'Hasta',
+                    customRangeLabel: 'Custom',
+                    daysOfWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+                    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                    firstDay: 1
+                }
+            }, function (start, end, label) {
+                //console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
+            });
+
+        });
+    </script>
+
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Solicitud de Boleta de Garant&iacute;a o P&oacute;liza de Urbanizaci&oacute;n
+    </div>
+    <div class="panel-body">
+
+        @using (Html.BeginForm("Formulario", "Main", FormMethod.Post, new { id = "FormBoleta", @class = "form-horizontal", enctype = "multipart/form-data" }))
+        {
+            @Html.HiddenFor(model => model.Id)
+
+            <div class="row">
+                <div class="col-md-6">
+                    @if (Model.EsNuevo())
+                    {
+                        @Html.HiddenFor(model => model.EstadoBoletaGarantiaId)
+                    }
+                    else
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EstadoBoletaGarantiaId, new { @class = "col-sm-4 control-label" })
+                            <div class="col-sm-8">
+                                @Html.DropDownListFor(model => model.EstadoBoletaGarantiaId, new SelectList(ViewBag.EstadosBoletaGarantia, "Id", "Nombre"), "-- Seleccione --", new { @class = "form-control" })
+                                <span class="help-inline text-danger">@Html.ValidationMessageFor(model => model.TipoGarantiaId)</span>
+                            </div>
+                        </div>
+                    }
+
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.TipoGarantiaId, new { @class = "col-sm-4 control-label" })
+                        <div class="col-sm-8">
+                            @Html.DropDownListFor(model => model.TipoGarantiaId, new SelectList(ViewBag.TiposGarantia, "Id", "Nombre"), "-- Seleccione --", new { @class = "form-control" })
+                            <span class="help-inline text-danger">@Html.ValidationMessageFor(model => model.TipoGarantiaId)</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.InmobiliariaId, new { @class = "col-sm-4 control-label" })
+                        <div class="col-sm-8">
+                            @Html.DropDownListFor(model => model.InmobiliariaId, new SelectList(ViewBag.Inmobiliarias, "Id", "Nombre"), "-- Seleccione --", new { @class = "form-control" })
+                            <span class="help-inline text-danger">@Html.ValidationMessageFor(model => model.InmobiliariaId)</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">RUT Solicitante</label>
+                        <div class="col-sm-8">
+                            <p class="form-control-static" id="RutSolicitante"></p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Beneficiario, new { @class = "col-sm-4 control-label" })
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(model => model.Beneficiario, new { @class = "form-control", maxlength = "255" })
+                            <span class="help-inline text-danger">@Html.ValidationMessageFor(model => model.Beneficiario)</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.RutBeneficiario, new { @class = "col-sm-4 control-label" })
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(model => model.RutBeneficiario, new { @class = "form-control", maxlength = "16" })
+                            <p class="help-block">Formato: 12345678-9</p>
+                            <span class="help-inline text-danger">@Html.ValidationMessageFor(model => model.RutBeneficiario)</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Monto, new { @class = "col-sm-4 control-label" })
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(model => model.Monto, new { @class = "form-control", maxlength = "11" })
+                            <span class="help-inline text-danger">@Html.ValidationMessageFor(model => model.Monto)</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.TipoMonedaId, new { @class = "col-sm-4 control-label" })
+                        <div class="col-sm-8">
+                            @Html.DropDownListFor(model => model.TipoMonedaId, new SelectList(ViewBag.TiposMoneda, "Id", "Nombre"), "-- Seleccione --", new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Glosa, new { @class = "col-sm-4 control-label" })
+                        <div class="col-sm-8">
+                            @Html.TextAreaFor(model => model.Glosa, new { @class = "form-control" })
+                            <span class="help-inline text-danger">@Html.ValidationMessageFor(model => model.Glosa)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.FechaVencimiento, new { @class = "col-sm-4 control-label" })
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(model => model.FechaVencimiento, new { @class = "form-control", maxlength = "50" })
+                            <span class="help-inline text-danger">@Html.ValidationMessageFor(model => model.FechaVencimiento)</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Responsable, new { @class = "col-sm-4 control-label" })
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(model => model.Responsable, new { @class = "form-control", maxlength = "50" })
+                            <span class="help-inline text-danger">@Html.ValidationMessageFor(model => model.Responsable)</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CentroCosto, new { @class = "col-sm-4 control-label" })
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(model => model.CentroCosto, new { @class = "form-control", maxlength = "50" })
+                            <span class="help-inline text-danger">@Html.ValidationMessageFor(model => model.CentroCosto)</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Observaciones, new { @class = "col-sm-4 control-label" })
+                        <div class="col-sm-8">
+                            @Html.TextAreaFor(model => model.Observaciones, new { @class = "form-control" })
+                            <span class="help-inline text-danger">@Html.ValidationMessageFor(model => model.Observaciones)</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-4 col-sm-8">
+                            <div class="checkbox">
+                                <label>
+                                    @Html.CheckBoxFor(model => model.EntregaSantiago) Entrega en Santiago
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group hide-entrega-stgo">
+                        @Html.LabelFor(model => model.LugarRetiro, new { @class = "col-sm-4 control-label" })
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(model => model.LugarRetiro, new { @class = "form-control", maxlength = "255" })
+                            <span class="help-inline text-danger">@Html.ValidationMessageFor(model => model.LugarRetiro)</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group hide-entrega-stgo">
+                        @Html.LabelFor(model => model.NombrePersonaRetiro, new { @class = "col-sm-4 control-label" })
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(model => model.NombrePersonaRetiro, new { @class = "form-control", maxlength = "255" })
+                            <span class="help-inline text-danger">@Html.ValidationMessageFor(model => model.NombrePersonaRetiro)</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group hide-entrega-stgo">
+                        @Html.LabelFor(model => model.RutPersonaRetiro, new { @class = "col-sm-4 control-label" })
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(model => model.RutPersonaRetiro, new { @class = "form-control", maxlength = "16" })
+                            <p class="help-block">Formato: 12345678-9</p>
+                            <span class="help-inline text-danger">@Html.ValidationMessageFor(model => model.RutPersonaRetiro)</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Archivo, new { @class = "col-sm-4 control-label" })
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(model => model.Archivo, new { @class = "form-control", type = "file", accept = ConfigHelper.AppAttachmentMime })
+                            <span class="help-inline text-danger">@Html.ValidationMessageFor(model => model.Archivo)</span>
+                        </div>
+                    </div>
+
+                    @if (Model.EsNuevo())
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EmailNotificacion, new { @class = "col-sm-4 control-label" })
+                            <div class="col-sm-8">
+                                @Html.TextBoxFor(model => model.EmailNotificacion, new { @class = "form-control", maxlength = "128" })
+                                <span class="help-inline text-danger">@Html.ValidationMessageFor(model => model.EmailNotificacion)</span>
+                            </div>
+                        </div>
+                    }
+                    else if(Model.EmailNotificacion != null)
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EmailNotificacion, new { @class = "col-sm-4 control-label" })
+                            <div class="col-sm-8">
+                                <p class="form-control-static">@ViewBag.Boleta.EmailNotificacion</p>
+                            </div>
+                        </div>
+                    }
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-4 col-sm-8">
+                            <button type="submit" id="submit" class="btn btn-primary" data-loading-text="Guardando datos..." autocomplete="off">Guardar</button>
+                            <a href="@Url.Action("Index")" class="btn btn-default">Volver</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

@@ -1,0 +1,16 @@
+﻿body {
+    
+}
+
+.table td.fit, .table th.fit {
+    white-space: nowrap;
+    width: 10%;
+}
+
+.textarea-form {
+    padding: 8px; 
+    /*border: 1px solid #CCC; 
+    border-radius: 5px;*/ 
+    max-height: 120px; 
+    overflow-y: auto;
+}

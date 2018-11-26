@@ -1,0 +1,44 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario Boleta Garantia</title>
+</head>
+<body>
+    <p>Se informa que se ha creado una nueva solicitud con los siguientes datos:</p>
+
+    <ul>
+        <li><strong>ID:</strong> @ViewBag.Boleta.Id</li>
+        <li><strong>Usuario:</strong> @ViewBag.Boleta.Usuario.Nombre</li>
+        <li><strong>Estado:</strong> @ViewBag.Boleta.EstadoBoletaGarantia.Nombre</li>
+        <li><strong>Tipo de Garantia</strong> @ViewBag.Boleta.TipoGarantia.Nombre</li>
+        <li><strong>Solicitado Por:</strong> @ViewBag.Boleta.Inmobiliaria.Nombre</li>
+        <li><strong>RUT Solicitante:</strong> @ViewBag.Boleta.Inmobiliaria.Rut</li>
+        <li><strong>Beneficiario:</strong> @ViewBag.Boleta.Beneficiario</li>
+        <li><strong>RUT Beneficiario:</strong> @ViewBag.Boleta.RutBeneficiario</li>
+        <li><strong>Tipo de Moneda:</strong> @ViewBag.Boleta.TipoMoneda.Nombre</li>
+        <li><strong>Monto:</strong> @string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0:G29}", ViewBag.Boleta.Monto)</li>
+        <li><strong>Glosa:</strong> @ViewBag.Boleta.Glosa</li>
+        <li><strong>Fecha Vencimiento:</strong> @ViewBag.Boleta.FechaVencimiento.ToString("dd/MM/yyyy")</li>
+        <li><strong>Responsable:</strong> @ViewBag.Boleta.Responsable</li>
+        <li><strong>Centro de Costo:</strong> @ViewBag.Boleta.CentroCosto</li>
+        <li><strong>Observaciones:</strong> @ViewBag.Boleta.Observaciones</li>
+        <li><strong>Fecha Solicitud:</strong> @ViewBag.Boleta.FechaSolicitud.ToString("dd-MM-yyyy")</li>
+        @if (ViewBag.Boleta.EntregaSantiago == 0)
+        {
+            <li><strong>Lugar de retiro:</strong> @ViewBag.Boleta.LugarRetiro</li>
+            <li><strong>Nombre persona que retira:</strong> @ViewBag.Boleta.NombrePersonaRetiro</li>
+            <li><strong>RUT persona que retira:</strong> @ViewBag.Boleta.RutPersonaRetiro</li>
+        }
+    </ul>
+
+    Atte.
+</body>
+</html>

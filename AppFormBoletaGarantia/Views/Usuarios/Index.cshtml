@@ -1,0 +1,110 @@
+﻿
+@{
+    ViewBag.Title = "Usuarios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts{
+
+    <script type="text/x-template" id="template-row-usuario">
+        <tr>
+            <td>{{ usuario.Nombre }}</td>
+            <td>{{ usuario.GrupoNombre }}</td>
+            <td>{{ usuario.Usuario }}</td>
+            <td class="fit2">
+                <div class="btn-group" role="group" aria-label="...">
+                    <a class="btn btn-default btn-xs" v-bind:href="'@Url.Action("Editar")/' + usuario.Id" role="button" title="Editar usuario"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+                    <a class="btn btn-default btn-xs" v-bind:href="'@Url.Action("Eliminar")/' + usuario.Id" v-on:click="confirm('¿Seguro desea eliminar a este usuario?', $event)" role="button" title="Eliminar usuario"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                </div>
+            </td>
+        </tr>
+    </script>
+
+    <script type="text/javascript">
+
+        $(function () {
+
+            Vue.component("row-usuario", {
+                mixins: [utilsMixin],
+                template: "#template-row-usuario",
+                props: {
+                    usuario: Object,
+                },
+                methods: {
+                }
+            });
+
+            var app = new Vue({
+                mixins: [utilsMixin],
+                el: "#app",
+                data: {
+                    usuarios: @Html.Raw(ViewBag.UsuariosJson),
+                    queryTexto: "",
+                    disableLimpiarFiltro: true
+                },
+                computed: {
+                    usuariosFiltrados: function() {
+                        var vm = this;
+                        var query = vm.queryTexto.toUpperCase();
+                        this.disableLimpiarFiltro = this.queryTexto.length == 0;
+
+                        var usuarios = this.usuarios.filter(function(t) {
+                            var visible = true;
+
+                            if (vm.queryTexto.length > 0 && t.Nombre.toUpperCase().indexOf(query) == -1 && t.Usuario.toUpperCase().indexOf(query) == -1) {
+                                visible = false;
+                            }
+
+                            return visible;
+                        });
+
+                        return usuarios;
+                    }
+                },
+                methods: {
+                    clickLimpiarFiltro: function(e) {
+                        this.queryTexto = "";
+                    }
+                }
+            });
+
+
+        });
+
+    </script>
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading clearfix">
+        <h4 class="pull-left">Usuarios</h4>
+        @if (AuthHelper.Has("Usuarios"))
+        {
+            <a href="@Url.Action("Editar")" role="button" class="btn btn-primary pull-right">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nuevo Usuario
+            </a>
+        }
+
+        <form class="form-inline pull-right" style="margin-right: 10px;">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Buscar usuarios..." v-model="queryTexto" />
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" v-bind:disabled="disableLimpiarFiltro" v-on:click="clickLimpiarFiltro">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    </button>
+                </span>
+            </div><!-- /input-group -->
+        </form>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-condensed">
+            <tr>
+                <th>Nombre</th>
+                <th>Rol</th>
+                <th>Cuenta</th>
+
+                <th class="fit2">Opciones</th>
+            </tr>
+            <tr is="row-usuario" v-for="u in usuariosFiltrados" :key="u.Id" :usuario="u"></tr>
+        </table>
+    </div>
+</div>

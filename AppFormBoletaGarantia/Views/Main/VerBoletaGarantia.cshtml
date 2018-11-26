@@ -1,0 +1,173 @@
+﻿
+@{
+    Layout = null;
+}
+
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+
+        <div class="modal-header" style="padding: 7px 15px;">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <img class="brand-logo" src="~/Content/Images/logo_socovesa.png">
+            <img class="brand-logo" src="~/Content/Images/logo_almagro.jpg">
+            <img class="brand-logo" src="~/Content/Images/logo_pilares.jpg">
+            <h4 class="modal-title" style="float: left; margin-top: 12px; margin-left: 10px;">Detalle</h4>
+        </div>
+        <div class="modal-body">
+            <form class="form-horizontal">
+                <div class="row">
+                    <div class="col-md-6">
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Id</label>
+                            <div class="col-sm-8">
+                                <p class="form-control-static">@ViewBag.Boleta.Id</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Usuario</label>
+                            <div class="col-sm-8">
+                                <p class="form-control-static">@ViewBag.Boleta.Usuario.Nombre</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Estado</label>
+                            <div class="col-sm-8">
+                                <p class="form-control-static">@ViewBag.Boleta.EstadoBoletaGarantia.Nombre</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Tipo de Garant&iacute;a</label>
+                            <div class="col-sm-8">
+                                <p class="form-control-static">@ViewBag.Boleta.TipoGarantia.Nombre</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Solicitado por</label>
+                            <div class="col-sm-8">
+                                <p class="form-control-static">@ViewBag.Boleta.Inmobiliaria.Nombre</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">RUT Solicitante</label>
+                            <div class="col-sm-8">
+                                <p class="form-control-static">@ViewBag.Boleta.Inmobiliaria.Rut</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Beneficiario</label>
+                            <div class="col-sm-8">
+                                <p class="form-control-static">@ViewBag.Boleta.Beneficiario</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Monto</label>
+                            <div class="col-sm-8">
+                                <p class="form-control-static">@string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0:G29}", ViewBag.Boleta.Monto)</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Tipo de Moneda</label>
+                            <div class="col-sm-8">
+                                <p class="form-control-static">@ViewBag.Boleta.TipoMoneda.Nombre</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Glosa</label>
+                            <div class="col-sm-8">
+                                <p class="form-control-static textarea-form">@ViewBag.Boleta.Glosa</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Fecha Vencimiento</label>
+                            <div class="col-sm-8">
+                                <p class="form-control-static">@ViewBag.Boleta.FechaVencimiento.ToString("dd/MM/yyyy")</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Responsable</label>
+                            <div class="col-sm-8">
+                                <p class="form-control-static">@ViewBag.Boleta.Responsable</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Centro de Costo</label>
+                            <div class="col-sm-8">
+                                <p class="form-control-static">@ViewBag.Boleta.CentroCosto</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Observaciones</label>
+                            <div class="col-sm-8">
+                                <p class="form-control-static textarea-form">@ViewBag.Boleta.Observaciones</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Fecha Solicitud</label>
+                            <div class="col-sm-8">
+                                <p class="form-control-static">@ViewBag.Boleta.FechaSolicitud.ToString("dd-MM-yyyy")</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Entrega en Santiago</label>
+                            <div class="col-sm-8">
+                                <p class="form-control-static">@(ViewBag.Boleta.EntregaSantiago == 1 ? "Sí" : "No")</p>
+                            </div>
+                        </div>
+
+                        @if (ViewBag.Boleta.EntregaSantiago == 0)
+                        {
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Lugar de retiro</label>
+                                <div class="col-sm-8">
+                                    <p class="form-control-static">@ViewBag.Boleta.LugarRetiro</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Nombre de persona que retira</label>
+                                <div class="col-sm-8">
+                                    <p class="form-control-static">@ViewBag.Boleta.NombrePersonaRetiro</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">RUT de persona que retira</label>
+                                <div class="col-sm-8">
+                                    <p class="form-control-static">@ViewBag.Boleta.RutPersonaRetiro</p>
+                                </div>
+                            </div>
+                        }
+
+                        @if (ViewBag.Boleta.Archivo != null)
+                        {
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Archivo</label>
+                                <div class="col-sm-8">
+                                    <a class="btn btn-default" target="_blank" href="@Url.Content("Archivos/" + ViewBag.Boleta.Archivo)" role="button">Ver</a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

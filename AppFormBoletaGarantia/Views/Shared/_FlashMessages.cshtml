@@ -1,0 +1,23 @@
+﻿@{
+    Layout = null;
+}
+
+@if (FlashMessagesHelper.HasOk(ViewContext.TempData))
+{
+    <div class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button> @FlashMessagesHelper.Ok(ViewContext.TempData)</div>
+}
+
+@if (FlashMessagesHelper.HasBad(ViewContext.TempData))
+{
+    <div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button> @FlashMessagesHelper.Bad(ViewContext.TempData)</div>
+}
+
+@if (FlashMessagesHelper.HasWarn(ViewContext.TempData))
+{
+    <div class="alert alert-warning alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button> @FlashMessagesHelper.Warn(ViewContext.TempData)</div>
+}
+
+@if (FlashMessagesHelper.HasInfo(ViewContext.TempData))
+{
+    <div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button> @FlashMessagesHelper.Info(ViewContext.TempData)</div>
+}
