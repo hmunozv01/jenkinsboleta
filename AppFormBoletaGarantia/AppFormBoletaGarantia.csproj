@@ -283,6 +283,7 @@
     <Content Include="Views\Usuarios\Editar.cshtml" />
     <Content Include="Views\Usuarios\Index.cshtml" />
     <Content Include="Views\Emails\_Boleta.cshtml" />
+    <None Include="Properties\PublishProfiles\publishboleta.pubxml" />
     <None Include="Properties\PublishProfiles\testboleta.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
